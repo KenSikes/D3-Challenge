@@ -329,3 +329,10 @@ yLabelsGroup.selectAll("text")
             .classed("active", true)
             .classed("inactive", false);
     }
+      //update circles with new y values.
+      circle = renderCircles(circlesGroup, xLinearScale, yLinearScale, chosenXAxis, chosenYAxis);
+      //update circles text with new values.
+      circleText = renderText(circleText, xLinearScale, yLinearScale, chosenXAxis, chosenYAxis);
+      //update tool tips with new info.
+      circlesGroup = updateToolTip(chosenXAxis, chosenYAxis, circle, circleText);
+  });
