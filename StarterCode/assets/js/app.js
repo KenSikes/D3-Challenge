@@ -30,7 +30,7 @@ function yScale(data, chosenYAxis, chartHeight) {
         .range([chartHeight, 0]);
     return yLinearScale;
 }
-// Function used for updating y axis
+// Function  for updating y axis
 function renderYAxes(newYScale, yAxis) {
     var leftAxis = d3.axisLeft(newYScale);
     yAxis.transition()
@@ -38,3 +38,40 @@ function renderYAxes(newYScale, yAxis) {
         .call(leftAxis);
     return yAxis;
 }
+
+// Function for updating circles transition to new circles.
+function renderCircles(circlesGroup, newXScale, newYScale, chosenXAxis, chosenYAxis) {
+    circlesGroup.transition()
+        .duration(1000)
+        .attr("cx", d => newXScale(d[chosenXAxis]))
+        .attr("cy", d => newYScale(d[chosenYAxis]));
+    return circlesGroup;
+}
+// Function for updating text in circles transition to new text.
+function renderText(circletextGroup, newXScale, newYScale, chosenXAxis, chosenYAxis) {
+    circletextGroup.transition()
+        .duration(1000)
+        .attr("x", d => newXScale(d[chosenXAxis]))
+        .attr("y", d => newYScale(d[chosenYAxis]));
+    return circletextGroup;
+}
+// Function for updating circles group with new tooltip.
+function updateToolTip(chosenXAxis, chosenYAxis, circlesGroup, textGroup) {
+    // Conditional for x Axis.
+    if (chosenXAxis === "poverty") {
+        var xlabel = "Poverty: ";
+    } else if (chosenXAxis === "income") {
+        var xlabel = "Median Income: "
+    } else {
+        var xlabel = "Age: "
+    }
+    // Conditional for y Axis.
+    if (chosenYAxis === "healthcare") {
+        var ylabel = "Lacks Healthcare: ";
+    } else if (chosenYAxis === "smokes") {
+        var ylabel = "Smokers: "
+    } else {
+        var ylabel = "Obesity: "
+    }
+
+
