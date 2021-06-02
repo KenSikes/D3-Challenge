@@ -117,3 +117,27 @@ right: 50,
 bottom: 100,
 left: 80
 };
+
+// Chart area
+var chartHeight = svgHeight - margin.top - margin.bottom;
+var chartWidth = svgWidth - margin.left - margin.right;
+//SVG wrapper
+var svg = d3
+.select("#scatter")
+.append("svg")
+.attr("width", svgWidth)
+.attr("height", svgHeight);
+// Append an SVG group
+var chartGroup = svg.append("g")
+    .attr("transform", `translate(${margin.left}, ${margin.top})`);
+d3.csv("assets/data/data.csv").then(function(demoData, err) {
+    if (err) throw err;
+    // Parse data.
+    demoData.forEach(function(data) {
+        data.poverty = +data.poverty;
+        data.healthcare = +data.healthcare;
+        data.age = +data.age;
+        data.smokes = +data.smokes;
+        data.income = +data.income;
+        data.obesity = data.obesity;
+    });
