@@ -340,3 +340,5 @@ yLabelsGroup.selectAll("text")
     console.log(err);
 });
 }
+makeResponsive();
+d3.select(window).on("resize", makeResponsive);
