@@ -173,27 +173,26 @@ d3.csv("assets/data/data.csv").then(function(demoData, err) {
         .attr("dy", ".35em") 
         .text(d => d.abbr)
         .classed("stateText", true);
-    // Update tool tip function above csv import.
+    //update tool tip function above csv import.
     var circlesGroup = updateToolTip(chosenXAxis, chosenYAxis, circle, circleText);
-    // Add x label groups and labels.
+    //add x label groups and labels.
     var xLabelsGroup = chartGroup.append("g")
         .attr("transform", `translate(${chartWidth / 2}, ${chartHeight + 20})`);
     var povertyLabel = xLabelsGroup.append("text")
         .attr("x", 0)
         .attr("y", 20)
-        .attr("value", "poverty") // value to grab for event listener
+        .attr("value", "poverty") 
         .classed("active", true)
         .text("In Poverty (%)");
     var ageLabel = xLabelsGroup.append("text")
         .attr("x", 0)
         .attr("y", 40)
-        .attr("value", "age") // value to grab for event listener
+        .attr("value", "age") 
         .classed("inactive", true)
         .text("Age (Median)");
     var incomeLabel = xLabelsGroup.append("text")
         .attr("x", 0)
         .attr("y", 60)
-        .attr("value", "income") // value to grab for event listener
+        .attr("value", "income") 
         .classed("inactive", true)
         .text("Household Income (Median)");
-        
