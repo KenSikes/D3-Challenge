@@ -336,3 +336,7 @@ yLabelsGroup.selectAll("text")
       //update tool tips with new info.
       circlesGroup = updateToolTip(chosenXAxis, chosenYAxis, circle, circleText);
   });
+}).catch(function(err) {
+    console.log(err);
+});
+}
