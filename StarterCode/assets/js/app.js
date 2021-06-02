@@ -196,7 +196,7 @@ d3.csv("assets/data/data.csv").then(function(demoData, err) {
         .attr("value", "income") 
         .classed("inactive", true)
         .text("Household Income (Median)");
-    // Add y labels group and labels.
+    //add y labels group and labels.
         var yLabelsGroup = chartGroup.append("g")
             .attr("transform", "rotate(-90)");
         var healthcareLabel = yLabelsGroup.append("text")
@@ -220,7 +220,7 @@ d3.csv("assets/data/data.csv").then(function(demoData, err) {
             .attr("value", "obesity")
             .classed("inactive", true)
             .text("Obese (%)");
-    // Add y labels group and labels.
+    //add y labels group and labels.
         var yLabelsGroup = chartGroup.append("g")
         .attr("transform", "rotate(-90)");
     var healthcareLabel = yLabelsGroup.append("text")
@@ -288,16 +288,12 @@ xLabelsGroup.selectAll("text")
     //update circles text with new values.
     circleText = renderText(circleText, xLinearScale, yLinearScale, chosenXAxis, chosenYAxis);
 });
-// Y Labels event listener.
+//y Labels event listener.
 yLabelsGroup.selectAll("text")
 .on("click", function() {
-    // Grab selected label.
     chosenYAxis = d3.select(this).attr("value");
-    // Update yLinearScale.
     yLinearScale = yScale(demoData, chosenYAxis, chartHeight);
-    // Update yAxis.
     yAxis = renderYAxes(yLinearScale, yAxis);
-    // Changes classes to change bold text.
     if (chosenYAxis === "healthcare") {
         healthcareLabel
             .classed("active", true)
