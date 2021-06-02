@@ -288,3 +288,44 @@ xLabelsGroup.selectAll("text")
     //update circles text with new values.
     circleText = renderText(circleText, xLinearScale, yLinearScale, chosenXAxis, chosenYAxis);
 });
+// Y Labels event listener.
+yLabelsGroup.selectAll("text")
+.on("click", function() {
+    // Grab selected label.
+    chosenYAxis = d3.select(this).attr("value");
+    // Update yLinearScale.
+    yLinearScale = yScale(demoData, chosenYAxis, chartHeight);
+    // Update yAxis.
+    yAxis = renderYAxes(yLinearScale, yAxis);
+    // Changes classes to change bold text.
+    if (chosenYAxis === "healthcare") {
+        healthcareLabel
+            .classed("active", true)
+            .classed("inactive", false);
+        smokesLabel
+            .classed("active", false)
+            .classed("inactive", true);
+        obeseLabel
+            .classed("active", false)
+            .classed("inactive", true);
+    } else if (chosenYAxis === "smokes"){
+        healthcareLabel
+            .classed("active", false)
+            .classed("inactive", true);
+        smokesLabel
+            .classed("active", true)
+            .classed("inactive", false);
+        obeseLabel
+            .classed("active", false)
+            .classed("inactive", true);
+    } else {
+        healthcareLabel
+            .classed("active", false)
+            .classed("inactive", true);
+        smokesLabel
+            .classed("active", false)
+            .classed("inactive", true);
+        obeseLabel
+            .classed("active", true)
+            .classed("inactive", false);
+    }
