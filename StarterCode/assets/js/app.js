@@ -1,11 +1,11 @@
 // @TODO: YOUR CODE HERE!
 
-// Set X & Y axis variables.
+//set X & Y axis variables.
 var chosenXAxis = "poverty";
 var chosenYAxis = "healthcare";
 
 function xScale(data, chosenXAxis, chartWidth) {
-    // Create scales.
+    //create scales.
     var xLinearScale = d3.scaleLinear()
         .domain([d3.min(data, d => d[chosenXAxis]) * .8,
             d3.max(data, d => d[chosenXAxis]) * 1.1])
@@ -13,7 +13,7 @@ function xScale(data, chosenXAxis, chartWidth) {
     return xLinearScale;
 }
 
-// Function for updating x axis
+//function for updating x axis
 function renderXAxes(newXScale, xAxis) {
     var bottomAxis = d3.axisBottom(newXScale);
     xAxis.transition()
@@ -21,16 +21,16 @@ function renderXAxes(newXScale, xAxis) {
         .call(bottomAxis);
     return xAxis;
 }
-// Function for updating y scale
+//function for updating y scale
 function yScale(data, chosenYAxis, chartHeight) {
-    // Create scales.
+    //create scales.
     var yLinearScale = d3.scaleLinear()
         .domain([d3.min(data, d => d[chosenYAxis]) * .8,
             d3.max(data, d => d[chosenYAxis]) * 1.2])
         .range([chartHeight, 0]);
     return yLinearScale;
 }
-// Function  for updating y axis
+//function  for updating y axis
 function renderYAxes(newYScale, yAxis) {
     var leftAxis = d3.axisLeft(newYScale);
     yAxis.transition()
@@ -39,7 +39,7 @@ function renderYAxes(newYScale, yAxis) {
     return yAxis;
 }
 
-// Function for updating circles transition to new circles.
+//function for updating circles transition to new circles.
 function renderCircles(circlesGroup, newXScale, newYScale, chosenXAxis, chosenYAxis) {
     circlesGroup.transition()
         .duration(1000)
@@ -47,7 +47,7 @@ function renderCircles(circlesGroup, newXScale, newYScale, chosenXAxis, chosenYA
         .attr("cy", d => newYScale(d[chosenYAxis]));
     return circlesGroup;
 }
-// Function for updating text in circles transition to new text.
+//function for updating text in circles transition to new text.
 function renderText(circletextGroup, newXScale, newYScale, chosenXAxis, chosenYAxis) {
     circletextGroup.transition()
         .duration(1000)
@@ -55,9 +55,9 @@ function renderText(circletextGroup, newXScale, newYScale, chosenXAxis, chosenYA
         .attr("y", d => newYScale(d[chosenYAxis]));
     return circletextGroup;
 }
-// Function for updating circles group with new tooltip.
+//function for updating circles group with new tooltip.
 function updateToolTip(chosenXAxis, chosenYAxis, circlesGroup, textGroup) {
-    // Conditional for x Axis.
+    //conditional for x Axis.
     if (chosenXAxis === "poverty") {
         var xlabel = "Poverty: ";
     } else if (chosenXAxis === "income") {
@@ -65,7 +65,7 @@ function updateToolTip(chosenXAxis, chosenYAxis, circlesGroup, textGroup) {
     } else {
         var xlabel = "Age: "
     }
-    // Conditional for y Axis.
+    //conditional for y Axis.
     if (chosenYAxis === "healthcare") {
         var ylabel = "Lacks Healthcare: ";
     } else if (chosenYAxis === "smokes") {
@@ -74,7 +74,7 @@ function updateToolTip(chosenXAxis, chosenYAxis, circlesGroup, textGroup) {
         var ylabel = "Obesity: "
     }
 
-// Tooltip
+//Tooltip
 var toolTip = d3.tip()
 .offset([120, -60])
 .attr("class", "d3-tip")
@@ -118,7 +118,7 @@ bottom: 100,
 left: 80
 };
 
-// Chart area
+//chart area
 var chartHeight = svgHeight - margin.top - margin.bottom;
 var chartWidth = svgWidth - margin.left - margin.right;
 //SVG wrapper
@@ -127,12 +127,12 @@ var svg = d3
 .append("svg")
 .attr("width", svgWidth)
 .attr("height", svgHeight);
-// Append an SVG group
+//append an SVG group
 var chartGroup = svg.append("g")
     .attr("transform", `translate(${margin.left}, ${margin.top})`);
 d3.csv("assets/data/data.csv").then(function(demoData, err) {
     if (err) throw err;
-    // Parse data.
+    //parse data.
     demoData.forEach(function(data) {
         data.poverty = +data.poverty;
         data.healthcare = +data.healthcare;
@@ -141,3 +141,35 @@ d3.csv("assets/data/data.csv").then(function(demoData, err) {
         data.income = +data.income;
         data.obesity = data.obesity;
     });
+
+            //x/y linear scales.
+            var xLinearScale = xScale(demoData, chosenXAxis, chartWidth);
+            var yLinearScale = yScale(demoData, chosenYAxis, chartHeight);
+            //initial axis functions.
+            var bottomAxis =d3.axisBottom(xLinearScale);
+            var leftAxis = d3.axisLeft(yLinearScale);
+            //append x axis.
+            var xAxis = chartGroup.append("g")
+                .attr("transform", `translate(0, ${chartHeight})`)
+                .call(bottomAxis);
+            //append y axis.
+            var yAxis = chartGroup.append("g")
+                .call(leftAxis);
+            //data for circles.
+            var circlesGroup = chartGroup.selectAll("circle")
+                .data(demoData);
+            //bind data.
+            var elemEnter = circlesGroup.enter();
+            //create circles.
+            var circle = elemEnter.append("circle")
+                .attr("cx", d => xLinearScale(d[chosenXAxis]))
+                .attr("cy", d => yLinearScale(d[chosenYAxis]))
+                .attr("r", 15)
+                .classed("stateCircle", true);
+            //create circle text.
+            var circleText = elemEnter.append("text")            
+                .attr("x", d => xLinearScale(d[chosenXAxis]))
+                .attr("y", d => yLinearScale(d[chosenYAxis]))
+                .attr("dy", ".35em") 
+                .text(d => d.abbr)
+                .classed("stateText", true);
