@@ -196,3 +196,51 @@ d3.csv("assets/data/data.csv").then(function(demoData, err) {
         .attr("value", "income") 
         .classed("inactive", true)
         .text("Household Income (Median)");
+    // Add y labels group and labels.
+        var yLabelsGroup = chartGroup.append("g")
+            .attr("transform", "rotate(-90)");
+        var healthcareLabel = yLabelsGroup.append("text")
+            .attr("x", 0 - (chartHeight / 2))
+            .attr("y", 40 - margin.left)
+            .attr("dy", "1em")
+            .attr("value", "healthcare")
+            .classed("active", true)
+            .text("Lacks Healthcare (%)");
+        var smokesLabel = yLabelsGroup.append("text")
+            .attr("x", 0 - (chartHeight / 2))
+            .attr("y", 20 - margin.left)
+            .attr("dy", "1em")
+            .attr("value", "smokes")
+            .classed("inactive", true)
+            .text("Smokes (%)");
+        var obeseLabel = yLabelsGroup.append("text")
+            .attr("x", 0 - (chartHeight / 2))
+            .attr("y", 0 - margin.left)
+            .attr("dy", "1em")
+            .attr("value", "obesity")
+            .classed("inactive", true)
+            .text("Obese (%)");
+    // Add y labels group and labels.
+        var yLabelsGroup = chartGroup.append("g")
+        .attr("transform", "rotate(-90)");
+    var healthcareLabel = yLabelsGroup.append("text")
+        .attr("x", 0 - (chartHeight / 2))
+        .attr("y", 40 - margin.left)
+        .attr("dy", "1em")
+        .attr("value", "healthcare")
+        .classed("active", true)
+        .text("Lacks Healthcare (%)");
+    var smokesLabel = yLabelsGroup.append("text")
+        .attr("x", 0 - (chartHeight / 2))
+        .attr("y", 20 - margin.left)
+        .attr("dy", "1em")
+        .attr("value", "smokes")
+        .classed("inactive", true)
+        .text("Smokes (%)");
+    var obeseLabel = yLabelsGroup.append("text")
+        .attr("x", 0 - (chartHeight / 2))
+        .attr("y", 0 - margin.left)
+        .attr("dy", "1em")
+        .attr("value", "obesity")
+        .classed("inactive", true)
+        .text("Obese (%)");
