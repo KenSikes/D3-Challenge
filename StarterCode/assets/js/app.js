@@ -244,3 +244,47 @@ d3.csv("assets/data/data.csv").then(function(demoData, err) {
         .attr("value", "obesity")
         .classed("inactive", true)
         .text("Obese (%)");
+        //x labels event listener.
+xLabelsGroup.selectAll("text")
+.on("click", function() {
+    chosenXAxis = d3.select(this).attr("value");
+    xLinearScale = xScale(demoData, chosenXAxis, chartWidth);
+    xAxis = renderXAxes(xLinearScale, xAxis);
+    if (chosenXAxis === "poverty") {
+        povertyLabel
+            .classed("active", true)
+            .classed("inactive", false);
+        ageLabel
+            .classed("active", false)
+            .classed("inactive", true);
+        incomeLabel
+            .classed("active", false)
+            .classed("inactive", true);
+    } else if (chosenXAxis === "age") {
+        povertyLabel
+            .classed("active", false)
+            .classed("inactive", true);
+        ageLabel
+            .classed("active", true)
+            .classed("inactive", false);
+        incomeLabel
+            .classed("active", false)
+            .classed("inactive", true);
+    } else {
+        povertyLabel
+            .classed("active", false)
+            .classed("inactive", true);
+        ageLabel
+            .classed("active", false)
+            .classed("inactive", true)
+        incomeLabel
+            .classed("active", true)
+            .classed("inactive", false);
+    }
+    //update circles with new x values.
+    circle = renderCircles(circlesGroup, xLinearScale, yLinearScale, chosenXAxis, chosenYAxis);
+    //update tool tips with new info.
+    circlesGroup = updateToolTip(chosenXAxis, chosenYAxis, circle, circleText);
+    //update circles text with new values.
+    circleText = renderText(circleText, xLinearScale, yLinearScale, chosenXAxis, chosenYAxis);
+});
