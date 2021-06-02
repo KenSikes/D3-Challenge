@@ -74,4 +74,46 @@ function updateToolTip(chosenXAxis, chosenYAxis, circlesGroup, textGroup) {
         var ylabel = "Obesity: "
     }
 
-
+// Tooltip
+var toolTip = d3.tip()
+.offset([120, -60])
+.attr("class", "d3-tip")
+.html(function(d) {
+    if (chosenXAxis === "age") {
+        return (`${d.state}<hr>${xlabel} ${d[chosenXAxis]}<br>${ylabel}${d[chosenYAxis]}%`);
+        } else if (chosenXAxis !== "poverty" && chosenXAxis !== "age") {
+        return (`${d.state}<hr>${xlabel}$${d[chosenXAxis]}<br>${ylabel}${d[chosenYAxis]}%`);
+        } else {
+        return (`${d.state}<hr>${xlabel}${d[chosenXAxis]}%<br>${ylabel}${d[chosenYAxis]}%`);
+        }      
+});
+circlesGroup.call(toolTip);
+circlesGroup
+.on("mouseover", function(data) {
+    toolTip.show(data, this);
+})
+.on("mouseout", function(data) {
+    toolTip.hide(data);
+});
+textGroup
+.on("mouseover", function(data) {
+    toolTip.show(data, this);
+})
+.on("mouseout", function(data) {
+    toolTip.hide(data);
+});
+return circlesGroup;
+}
+function makeResponsive() {
+var svgArea = d3.select("#scatter").select("svg");
+if (!svgArea.empty()) {
+svgArea.remove();
+}
+var svgHeight = window.innerHeight/1.2;
+var svgWidth = window.innerWidth/1.7;
+var margin = {
+top: 50,
+right: 50,
+bottom: 100,
+left: 80
+};
