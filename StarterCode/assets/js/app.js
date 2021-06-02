@@ -142,34 +142,58 @@ d3.csv("assets/data/data.csv").then(function(demoData, err) {
         data.obesity = data.obesity;
     });
 
-            //x/y linear scales.
-            var xLinearScale = xScale(demoData, chosenXAxis, chartWidth);
-            var yLinearScale = yScale(demoData, chosenYAxis, chartHeight);
-            //initial axis functions.
-            var bottomAxis =d3.axisBottom(xLinearScale);
-            var leftAxis = d3.axisLeft(yLinearScale);
-            //append x axis.
-            var xAxis = chartGroup.append("g")
-                .attr("transform", `translate(0, ${chartHeight})`)
-                .call(bottomAxis);
-            //append y axis.
-            var yAxis = chartGroup.append("g")
-                .call(leftAxis);
-            //data for circles.
-            var circlesGroup = chartGroup.selectAll("circle")
-                .data(demoData);
-            //bind data.
-            var elemEnter = circlesGroup.enter();
-            //create circles.
-            var circle = elemEnter.append("circle")
-                .attr("cx", d => xLinearScale(d[chosenXAxis]))
-                .attr("cy", d => yLinearScale(d[chosenYAxis]))
-                .attr("r", 15)
-                .classed("stateCircle", true);
-            //create circle text.
-            var circleText = elemEnter.append("text")            
-                .attr("x", d => xLinearScale(d[chosenXAxis]))
-                .attr("y", d => yLinearScale(d[chosenYAxis]))
-                .attr("dy", ".35em") 
-                .text(d => d.abbr)
-                .classed("stateText", true);
+    //x/y linear scales.
+    var xLinearScale = xScale(demoData, chosenXAxis, chartWidth);
+    var yLinearScale = yScale(demoData, chosenYAxis, chartHeight);
+    //initial axis functions.
+    var bottomAxis =d3.axisBottom(xLinearScale);
+    var leftAxis = d3.axisLeft(yLinearScale);
+    //append x axis.
+    var xAxis = chartGroup.append("g")
+        .attr("transform", `translate(0, ${chartHeight})`)
+        .call(bottomAxis);
+    //append y axis.
+    var yAxis = chartGroup.append("g")
+        .call(leftAxis);
+    //data for circles.
+    var circlesGroup = chartGroup.selectAll("circle")
+        .data(demoData);
+    //bind data.
+    var elemEnter = circlesGroup.enter();
+    //create circles.
+    var circle = elemEnter.append("circle")
+        .attr("cx", d => xLinearScale(d[chosenXAxis]))
+        .attr("cy", d => yLinearScale(d[chosenYAxis]))
+        .attr("r", 15)
+        .classed("stateCircle", true);
+    //create circle text.
+    var circleText = elemEnter.append("text")            
+        .attr("x", d => xLinearScale(d[chosenXAxis]))
+        .attr("y", d => yLinearScale(d[chosenYAxis]))
+        .attr("dy", ".35em") 
+        .text(d => d.abbr)
+        .classed("stateText", true);
+    // Update tool tip function above csv import.
+    var circlesGroup = updateToolTip(chosenXAxis, chosenYAxis, circle, circleText);
+    // Add x label groups and labels.
+    var xLabelsGroup = chartGroup.append("g")
+        .attr("transform", `translate(${chartWidth / 2}, ${chartHeight + 20})`);
+    var povertyLabel = xLabelsGroup.append("text")
+        .attr("x", 0)
+        .attr("y", 20)
+        .attr("value", "poverty") // value to grab for event listener
+        .classed("active", true)
+        .text("In Poverty (%)");
+    var ageLabel = xLabelsGroup.append("text")
+        .attr("x", 0)
+        .attr("y", 40)
+        .attr("value", "age") // value to grab for event listener
+        .classed("inactive", true)
+        .text("Age (Median)");
+    var incomeLabel = xLabelsGroup.append("text")
+        .attr("x", 0)
+        .attr("y", 60)
+        .attr("value", "income") // value to grab for event listener
+        .classed("inactive", true)
+        .text("Household Income (Median)");
+        
